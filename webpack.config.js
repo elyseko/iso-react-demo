@@ -11,7 +11,7 @@ module.exports = [
     devtool: "source-map",
     debug: true,
     entry: {
-      app: serverPath
+      app: [serverPath]
     },
     output: {
       path: buildPath,
@@ -44,7 +44,7 @@ module.exports = [
     devtool: "source-map",
     debug: true,
     entry: {
-      app: browserPath
+      app:['webpack/hot/dev-server', 'webpack-dev-server/client?http://localhost:8080', browserPath]
     },
     output: {
       path: buildPath,
@@ -71,6 +71,7 @@ module.exports = [
     },
     resolve: {
       extensions: ['', '.js', '.json', '.jsx']
-    }
+    },
+    plugins: [new Webpack.HotModuleReplacementPlugin()]
   }
 ];

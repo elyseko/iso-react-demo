@@ -3,7 +3,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('../../webpack.config.js');
 var path = require('path');
 var fs = require('fs');
-var mainPath = path.resolve(__dirname, '..', 'server', 'app.js');
+var mainPath = path.resolve(__dirname, 'app.js');
 
 module.exports = function () {
 
@@ -12,7 +12,7 @@ module.exports = function () {
 
   console.log("bundleStart");
   var bundleStart = null;
-  var compiler = Webpack(webpackConfig);
+  var compiler = Webpack(webpackConfig[1]);
 
   // We give notice in the terminal when it starts bundling and
   // set the time it started
@@ -36,7 +36,7 @@ module.exports = function () {
 
     // Configure hot replacement
     hot: true,
-
+    historyApiFallback: true,
     // The rest is terminal configurations
     quiet: false,
     noInfo: false,

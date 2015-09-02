@@ -1,6 +1,8 @@
 import express from "express";
 import path from 'path';
+import httpProxy from 'http-proxy';
 
+var proxy = httpProxy.createProxyServer();
 var app = express();
 
 // instantiate react-router
@@ -15,8 +17,6 @@ if (typeof window === 'undefined') {
 } else {
   process.env.IS_BROWSER = true;
 }
-
-
 
 // var isProduction = process.env.NODE_ENV === 'production';
 
@@ -34,30 +34,35 @@ let getData = (callback) => {
         2: "b"
   })
 }
-// app.all("/build/*", function (req, res) {
-//     // proxy.web(req, res, {
-//     //     target: 'http://localhost:8080'
-//     // });
-//
-//     console.log("build");
-//     res.send()
-// });
+
+import bundle from './bundle.js'
+bundle();
+
+app.all("/build/*", function (req, res) {
+    proxy.web(req, res, {
+        target: 'http://localhost:8080'
+    });
+});
 //view routes
 app.get('/*',(req, res) => {
   var location = new Location(req.path, req.query);
 
-  Router.run(routes, location, (error, initialState, transition) => {
+  Router.run(routes, location, Handler (error, initialState, transition) => {
     // do your own data fetching, perhaps using the
     // branch of components in the initialState
     let data = getData((data)=>{
     // fetchSomeData(initialState.components, (error, initialData) => {
       var html = ReactDOM.renderToString(
-        <Router {...data} {...initialState}/>
+        <Handler {...initialState}/>
       );
       console.log("html\n", html)
       res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify(data)});
     });
   });
+});
+
+proxy.on('error', function(e) {
+  console.log('Could not connect to proxy, please try again...');
 });
 
 app.listen(4000, function(){
