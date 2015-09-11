@@ -44,7 +44,7 @@ module.exports = [
     devtool: "source-map",
     debug: true,
     entry: {
-      app:['webpack/hot/dev-server', 'webpack-dev-server/client?http://localhost:8080', browserPath]
+      app:['webpack/hot/dev-server', 'webpack-dev-server/client?http://localhost:8080', "./src/client/main.js"]
     },
     output: {
       path: buildPath,

@@ -2,7 +2,7 @@
   "name": "iso-react-demo",
   "version": "0.0.0",
   "description": "Demo of isomorphic react app",
-  "main": "server/app.js",
+  "main": "src/server/app.js",
   "scripts": {
     "start": "nodemon public/build/server.js",
     "debug": "node-debug public/build/server.js",

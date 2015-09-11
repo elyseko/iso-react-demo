@@ -39,21 +39,23 @@ import bundle from './bundle.js'
 bundle();
 
 app.all("/build/*", function (req, res) {
+  console.log("proxy")
     proxy.web(req, res, {
         target: 'http://localhost:8080'
     });
 });
 //view routes
 app.get('/*',(req, res) => {
+  console.log("route")
   var location = new Location(req.path, req.query);
 
-  Router.run(routes, location, Handler (error, initialState, transition) => {
+  Router.run(routes, location, (error, initialState, transition) => {
     // do your own data fetching, perhaps using the
     // branch of components in the initialState
     let data = getData((data)=>{
     // fetchSomeData(initialState.components, (error, initialData) => {
       var html = ReactDOM.renderToString(
-        <Handler {...initialState}/>
+        <Router {...initialState}/>
       );
       console.log("html\n", html)
       res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify(data)});
