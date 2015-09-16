@@ -41,7 +41,7 @@ module.exports = [
     }
   },
   {
-    devtool: "source-map",
+    devtool: "eval",
     debug: true,
     entry: {
       app:['webpack/hot/dev-server', 'webpack-dev-server/client?http://localhost:8080', "./src/client/main.js"]
@@ -51,27 +51,28 @@ module.exports = [
       publicPath: "/build/",
       filename: "browser.js"
     },
-    externals: [/^[a-z\-0-9]+$/, 'react-router/lib/Location.js', 'react-dom/server'],
     module: {
       loaders: [
         {
           test: /\.json$/,
-          loader: "json-loader"
+          loader: "json-loader",
+          exclude: /nodeModulesPath/
         },
         {
           test: /\.jsx?$/,
           exclude: /nodeModulesPath/,
-          loader: 'babel'
+          loader: 'babel-loader'
         },
         {
           test: /\.ejs$/,
-          loader: "ejs-loader?variable=data"
+          loader: "ejs-loader?variable=data",
+          exclude: /nodeModulesPath/
         }
       ]
     },
     resolve: {
       extensions: ['', '.js', '.json', '.jsx']
     },
-    plugins: [new Webpack.HotModuleReplacementPlugin()]
+    plugins: [new Webpack.HotModuleReplacementPlugin(), new Webpack.NoErrorsPlugin()]
   }
 ];

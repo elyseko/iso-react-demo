@@ -1,4 +1,7 @@
-import ReactDOM from "react-dom"
-import routes from "../shared/routes.js"
+import ReactDOM from 'react-dom'
+import React from 'react'
+import routes from './routes'
 
-ReactDOM.render(routes, document.getElementById('react'));
+ReactDOM.render(routes,
+  document.getElementById('react')
+)

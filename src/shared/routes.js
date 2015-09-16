@@ -1,11 +1,13 @@
-import { Route } from "react-router";
+import { Route, IndexRoute } from "react-router";
 import React from "react";
-
+import App from "./components/App";
 import Home from "./components/Home";
 import Detail from "./components/Detail";
-
+//
+// // export default (historyItem) => {
 export default (
-  <Route component={ Home } path="/">
-    <Route component={ Detail } path="/detail" />
+  <Route component={ App } path="/">
+    <IndexRoute component={Home} />
+    <Route component={ Detail } path="detail" />
   </Route>
 );

@@ -8,15 +8,14 @@ var app = express();
 // instantiate react-router
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import Router from 'react-router';
-import Location from 'react-router/lib/Location.js';
+import createLocation from 'history/lib/createLocation'
+import { RoutingContext, match } from 'react-router'
 import routes from '../shared/routes';
+import bundle from './bundle.js';
 
-if (typeof window === 'undefined') {
-  process.env.IS_NODE = true;
-} else {
-  process.env.IS_BROWSER = true;
-}
+//setup server history
+import createHistory from 'history/lib/createMemoryHistory';
+
 
 // var isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,8 +23,6 @@ var publicPath = path.resolve(__dirname, 'public/build');
 app.use(express.static(publicPath));
 
 // point at the ejs templates
-// app.set('views',__dirname);
-// set the view engine to ejs
 app.set('view engine', 'ejs');
 
 let getData = (callback) => {
@@ -35,7 +32,6 @@ let getData = (callback) => {
   })
 }
 
-import bundle from './bundle.js'
 bundle();
 
 app.all("/build/*", function (req, res) {
@@ -44,23 +40,30 @@ app.all("/build/*", function (req, res) {
         target: 'http://localhost:8080'
     });
 });
+
 //view routes
 app.get('/*',(req, res) => {
-  console.log("route")
-  var location = new Location(req.path, req.query);
+  console.log("route", req.path);
+  var location = createLocation(req.url);
+  // let history = createHistory({
+  //   getCurrentLocation: () => createLocation(req.path, {}, undefined, 'root')
+  // });
 
-  Router.run(routes, location, (error, initialState, transition) => {
-    // do your own data fetching, perhaps using the
-    // branch of components in the initialState
-    let data = getData((data)=>{
-    // fetchSomeData(initialState.components, (error, initialData) => {
-      var html = ReactDOM.renderToString(
-        <Router {...initialState}/>
-      );
-      console.log("html\n", html)
-      res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify(data)});
-    });
-  });
+  // var routesWithHistory = routes; //routes({});
+  match({ routes, location }, (error, redirectLocation, renderProps) => {
+    if (redirectLocation)
+      res.redirect(301, redirectLocation.pathname + redirectLocation.search)
+    else if (error)
+      res.status(500).send(error.message)
+    else if (renderProps == null)
+      res.status(404).send('Not found')
+    else
+      var html = ReactDOM.renderToString(<RoutingContext {...renderProps}/>);
+      res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify({
+            1: "a",
+            2: "b"
+      })});
+  })
 });
 
 proxy.on('error', function(e) {
