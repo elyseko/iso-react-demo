@@ -8,19 +8,19 @@ export default class Home extends React.Component {
 
   constructor(props) {
     super();
-    this.state = { data: props.params.data };
+    console.log(props.params.data)
+    this.state = { data: props.params.data.getCards };
   }
 
-  requestData() {
-    return [getCards];
+  static requestData() {
+    return [{request: "getCards"}];
   }
 
   componentWillMount() {
     if(!this.state.data) {
       api.getCards((err, data)=>{
-        console.log("getcards", err, data);
         this.setState({data: data});
-      }, "all");
+      }, "getCards");
     }
   }
 

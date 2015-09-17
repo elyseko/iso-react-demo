@@ -22,7 +22,7 @@ export default class API {
     }
     //call API
     setTimeout( () => {
-      callback(err, testData);
+      callback(err, {result: testData, id: cardsId});
     }, 200);
   }
 

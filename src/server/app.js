@@ -13,12 +13,12 @@ import routes from '../shared/routes';
 import bundle from './bundle.js';
 
 import API from '../shared/api'
-let api = new API();
+const api = new API();
 
-var proxy = httpProxy.createProxyServer();
-var app = express();
+const proxy = httpProxy.createProxyServer();
+const app = express();
 
-var publicPath = path.resolve(__dirname, 'public/build');
+const publicPath = path.resolve(__dirname, 'public/build');
 app.use(express.static(publicPath));
 
 // point at the ejs templates
@@ -37,7 +37,7 @@ app.all("/build/*", function (req, res) {
 //view routes
 app.get('/*',(req, res) => {
   console.log("route", req.path);
-  var location = createLocation(req.url);
+  let location = createLocation(req.url);
   match({ routes, location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation)
       res.redirect(301, redirectLocation.pathname + redirectLocation.search)
@@ -45,17 +45,34 @@ app.get('/*',(req, res) => {
       res.status(500).send(error.message)
     else if (renderProps == null)
       res.status(404).send('Not found')
-    else
-      //TODO: abstract to coming from settings on component
-      api.getCards( (err, data) => {
-        if(err) {
-          console.log("failed to get required data", err)
+    else {
+      let components = renderProps.components
+      let requests = []
+      components.forEach((item, index) => {
+        if (item.hasOwnProperty("requestData")) {
+          requests = requests.concat(item.requestData());
         }
-        console.log("render props", renderProps)
-        renderProps.params.data = data;
-        var html = ReactDOM.renderToString(<RoutingContext {...renderProps}/>);
-        res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify({"all":data})});
-      }, "all");
+      });
+      let viewData = {};
+      let count = requests.length;
+      let callback = (err, data)=> {
+        console.log("callback")
+        if(!err) {
+          viewData[data.id] = data.result;
+        } else {
+          viewData[data.id] = err;
+        }
+        count--;
+        if (count <= 0) {
+          renderProps.params.data = viewData;
+          let html = ReactDOM.renderToString(<RoutingContext {...renderProps}/>);
+          res.render('pages/index', {"title": "Test", "html": html, data: JSON.stringify({viewData})});
+        }
+      }
+      requests.forEach((item, index)=> {
+        api[item.request](callback, item.request);
+      });
+    }
   })
 });
 
