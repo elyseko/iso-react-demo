@@ -12,13 +12,13 @@ import routes from '../shared/routes';
 // setup dev webpack dev server
 import bundle from './bundle.js';
 
-import API from '../shared/api'
-const api = new API();
+import Store from '../shared/store'
+const store = new Store();
 
 const proxy = httpProxy.createProxyServer();
 const app = express();
 
-const publicPath = path.resolve(__dirname, 'public/build');
+let publicPath = path.resolve(__dirname, 'public/build');
 app.use(express.static(publicPath));
 
 // point at the ejs templates
@@ -49,6 +49,7 @@ app.get('/*',(req, res) => {
       let components = renderProps.components
       let requests = []
       components.forEach((item, index) => {
+        // check for static method on parent components
         if (item.hasOwnProperty("requestData")) {
           requests = requests.concat(item.requestData());
         }
@@ -70,7 +71,14 @@ app.get('/*',(req, res) => {
         }
       }
       requests.forEach((item, index)=> {
-        api[item.request](callback, item.request);
+        console.log("each item", item, index)
+        // check item in case a component implements requestData
+        // but does not return an itme
+        if (item) {
+          store[item.request](callback, item.request);
+        } else {
+          console.error("static method requestData must return a valid store request")
+        }
       });
     }
   })

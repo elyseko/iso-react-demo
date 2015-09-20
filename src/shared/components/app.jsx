@@ -4,11 +4,12 @@ import { Link } from "react-router"
 export default class App extends React.Component {
 
   /*
-    special data fn
+    requestData
+
     lists calls that need to be made
     so the server knows what data to request
   */
-  requestData() {
+  static requestData() {
     // return ["call()", "call2()"];
   }
 

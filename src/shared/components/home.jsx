@@ -1,14 +1,13 @@
 import React from 'react'
 import { Link } from "react-router"
-import API from "../api"
+import Store from "../store"
 
-let api = new API();
+let store = new Store();
 
 export default class Home extends React.Component {
 
   constructor(props) {
     super();
-    console.log(props.params.data)
     this.state = { data: props.params.data.getCards };
   }
 
@@ -17,11 +16,13 @@ export default class Home extends React.Component {
   }
 
   componentWillMount() {
-    if(!this.state.data) {
-      api.getCards((err, data)=>{
-        this.setState({data: data});
-      }, "getCards");
-    }
+    store.getCards((err, data)=>{
+      if (data.err) {
+        this.setState({getCardsError: data.err});
+      } else {
+        this.setState({data: data.result});
+      }
+    }, "getCards");
   }
 
   renderCards() {
@@ -30,12 +31,14 @@ export default class Home extends React.Component {
     if (items) {
       Object.keys(items).forEach( (item, index) => {
         console.log(item, index)
+        let current = items[item];
         cards.push(
           <div key={"card-item" +   index}>
-            <span>Name: {items[item].name}</span>
+            <a href="/game/{current.id}"><span>Title: </span>{current.name}</a>
             <div>
-              {items[item].description}
+              Year Published: {current.year_published}
             </div>
+            <img src={current.thumbnail} />
           </div>
         )
       });
