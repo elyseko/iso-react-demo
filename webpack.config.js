@@ -1,9 +1,15 @@
 var Webpack = require('webpack');
 var path = require('path');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
-var buildPath = path.resolve(__dirname, 'public/build/');
+var buildPath = path.resolve(__dirname, 'dist');
 var serverPath = path.resolve(__dirname, 'src/server', 'app.js');
 var browserPath = path.resolve(__dirname, 'src/client', 'main.js');
+
+// definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
+var envPlugin = new Webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEV || 'true')),
+  __PRODUCTION__: JSON.stringify(JSON.parse(process.env.PRODUCTION || 'false'))
+});
 
 module.exports = [
   {
@@ -16,7 +22,8 @@ module.exports = [
     output: {
       path: buildPath,
       filename: "server.js",
-      libraryTarget: "umd"
+      libraryTarget: "commonjs2",
+      publicPath: "dist"
     },
     externals: [/^[a-z\-0-9]+$/, 'react-router/lib/Location.js', 'react-dom/server'],
     module: {
@@ -38,17 +45,18 @@ module.exports = [
     },
     resolve: {
       extensions: ['', '.js', '.json', '.jsx']
-    }
+    },
+    plugins: [envPlugin]
   },
   {
     devtool: "eval",
     debug: true,
     entry: {
-      app:['webpack/hot/dev-server', 'webpack-dev-server/client?http://localhost:8080', "./src/client/main.js"]
+      app:["./src/client/main.js"]
     },
     output: {
-      path: buildPath,
-      publicPath: "/build/",
+      path: buildPath + "/public/build",
+      publicPath: "dist/public/build",
       filename: "browser.js"
     },
     module: {
@@ -73,6 +81,6 @@ module.exports = [
     resolve: {
       extensions: ['', '.js', '.json', '.jsx']
     },
-    plugins: [new Webpack.HotModuleReplacementPlugin(), new Webpack.NoErrorsPlugin()]
+    plugins: [new Webpack.NoErrorsPlugin(),envPlugin]
   }
 ];

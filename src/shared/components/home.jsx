@@ -11,6 +11,12 @@ export default class Home extends React.Component {
     this.state = { data: props.params.data.getCards };
   }
 
+  /*
+    requestData Array
+
+    lists calls that need to be made
+    so the server knows what data to request
+  */
   static requestData() {
     return [{request: "getCards"}];
   }

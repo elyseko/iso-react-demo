@@ -1,25 +1,22 @@
 # iso-react-demo
 Example of how to build an isomorphic react app
+Server runs at port 4000
 
 # Setup
-$ npm install
+`$ npm install
 $ webpack
 $ nodemon install -g
-$ nodemon public/build/server.js
+$ nodemon public/build/server.js`
+
 
 # Libraries
 
 # Tests
+Mocha
 
-## Server Tests
-
-Use jasmine-node
-
-$ npm install jasmine-node -g
-
-## Client Tests
-
-Use jasmine + karma
+# Resources
+https://github.com/petehunt/webpack-howto
+http://isomorphic.net/libraries
 
 
 ### Bug with global = function(){return this;}
