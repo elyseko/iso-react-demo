@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "react-router"
 import Store from "../store"
+import Card from "./card"
 
 let store = new Store();
 
@@ -30,16 +31,10 @@ export default class Home extends React.Component {
     let items =  this.state.data;
     if (items) {
       Object.keys(items).forEach( (item, index) => {
-        console.log(item, index)
-        let current = items[item];
+        let currentCard = items[item];
         cards.push(
-          <div key={"card-item" +   index}>
-            <a href="/game/{current.id}"><span>Title: </span>{current.name}</a>
-            <div>
-              Year Published: {current.year_published}
-            </div>
-            <img src={current.thumbnail} />
-          </div>
+          <Card key={"card-item" + index} {...currentCard}>
+          </Card>
         )
       });
     }
@@ -48,8 +43,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <h4>Card Items</h4>
+      <div className="ui cards">
         {this.renderCards()}
       </div>
     );

@@ -17,9 +17,6 @@ export default class App extends React.Component {
     return (
         <div className="app">
           <h3>Isomorphic React Example</h3>
-          <div className="nav">
-            <Link to="/about">About</Link>
-          </div>
           <div className="main-content">
             {this.props.children}
           </div>
