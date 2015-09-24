@@ -1,7 +1,8 @@
 var gulp = require('gulp');
-var jasmine = require('gulp-jasmine');
-var reporters = require('jasmine-reporters');
+var path = require('path');
+var jasmine = require('gulp-mocha');
 var babel = require('gulp-babel');
+var browserSync = require('browser-sync').create();
 
 gulp.task('build', function(){
   return gulp.src(['server/components/*.jsx', 'test/*spec.js'])
@@ -14,4 +15,10 @@ gulp.task('test:server', function () {
         .pipe(jasmine({
             reporter: new reporters.TerminalReporter()
         }));
+});
+
+gulp.task('browser-sync', function () {
+  browserSync.init({
+    server: path.join(__dirname, "/")
+  });
 });

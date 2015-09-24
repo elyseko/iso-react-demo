@@ -10,10 +10,11 @@ import App from "./components/App";
 import Home from "./components/Home";
 import Detail from "./components/Detail";
 
+// console.log("history", createHistory)
+
 export default (
-  <Route component={ App } path="/">
-    <IndexRoute component={Home} />
-    <Route path="game:id" />
-    <Route component={ Detail } path="detail" />
-  </Route>
+    <Route component={ App } path="/">
+      <IndexRoute component={ Home } />
+      <Route component={ Detail } path="game/:id" />
+    </Route>
 );

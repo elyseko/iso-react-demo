@@ -1,18 +1,34 @@
 import React from 'react'
-import { Link } from "react-router"
+import viewUtils from '../viewUtils'
+
+let GET_CARD = "getCard";
+let GET_RELATED = "getRelated";
 
 export default class Detail extends React.Component {
+  constructor(props) {
+    super();
+    // get the data off of props - guarenteed to be available
+    // because all calls are made at the router level
+    // TODO: check for error and/or loading states
+    this.state =  {
+                    data: props.data[GET_CARD + props.params.id],
+                    related: props.data[GET_RELATED + props.params.id]
+                  }
+  }
+
+  static requestData() {
+    return [{request: GET_CARD, params: {id: ":id"}}, {request: GET_RELATED, params: {id: ":id"}}];
+  }
+
   render() {
     return (
       <div>
-        <h1>"Details"</h1>
-        <Link to="/">Home</Link>
-        <ul>
-          <li>test list 1</li>
-          <li>test list 2</li>
-          <li>test list 3</li>
-          <li>test list 4</li>
-        </ul>
+        <h1>{this.state.data.name}</h1>
+        <img className="ui image left floated" src={this.state.data.thumbnail} />
+        <div>
+          <h2>Related Games</h2>
+          {viewUtils.renderCards(this.state.related)}
+        </div>
       </div>
     )
   }

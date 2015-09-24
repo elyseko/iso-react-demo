@@ -1,22 +1,19 @@
+/*
+  Parent react component
+
+  Header, footer and other components common to all
+  routes go in here
+*/
+
 import React from 'react'
 import { Link } from "react-router"
 
 export default class App extends React.Component {
 
-  /*
-    requestData
-
-    lists calls that need to be made
-    so the server knows what data to request
-  */
-  static requestData() {
-    // return ["call()", "call2()"];
-  }
-
   render() {
     return (
         <div className="app">
-          <h3>Isomorphic React Example</h3>
+          <h3><Link to="/">Isomorphic React Example</Link></h3>
           <div className="main-content">
             {this.props.children}
           </div>

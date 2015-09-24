@@ -25,28 +25,58 @@ export default class Store {
         dataToCache = err;
       }
       cache.add(id, dataToCache);
-      callback(err, {result: dataToCache, id: id});
+      return callback(err, {result: dataToCache, id: id});
     }, 200);
   }
 
-  _checkCache(callback, id) {
+  _checkCache(id) {
     //check cache to see if ids exist
     if (cache.exists(id)) {
-      console.log("LOG: cache hit");
-      callback(null, {result: cache.get(id), id: id});
+      console.info("LOG: cache hit");
+      return true;
     }
   }
 
   getCards(callback, cardsId, options) {
     let err = null;
-    this._checkCache(callback, cardsId)
-    this._get(callback, boardgames.items, cardsId);
+    if (this._checkCache(cardsId)) {
+      callback(err, {result: cache.get(cardsId), id: cardsId});
+    } else {
+      this._get(callback, boardgames.items, cardsId);
+    }
   }
 
   getCard(callback, cardId, options) {
     let err = null;
-    this._checkCache(callback, cardId)
-    this._get(callback, boardgames.items[cardId], cardId);
+
+    if (!options || !options.id) {
+      err = {err: "missing options or no id on request"}
+      return callback(err, {id: cardId});
+    }
+
+    let cacheId = cardId + options.id;
+    if (this._checkCache(cacheId)) {
+      callback(err, {result: cache.get(options.id), id: cacheId});
+    } else {
+      this._get(callback, boardgames.items[options.id-1], cacheId);
+    }
+  }
+
+  getRelated(callback, relatedId, options) {
+    let err = null;
+
+    if (!options || !options.id) {
+      err = {err: "missing options or no id on request"}
+      return callback(err, {id: cardId});
+    }
+
+    let cacheId = relatedId + options.id;
+    if (this._checkCache(cacheId)) {
+      callback(err, {result: cache.get(options.id), id: cacheId});
+    } else {
+      //TODO: hook up to actual related ap
+      this._get(callback, boardgames.items, cacheId);
+    }
   }
 
 }
