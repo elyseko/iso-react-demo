@@ -14,7 +14,8 @@ export default class Detail extends React.Component {
     // TODO: check for error and/or loading states
     let item = this.props.data[GET_CARD + this.props.params.id];
     let related = this.props.data[GET_RELATED + this.props.params.id];
-      return (
+    if (item) {
+       return (
         <div className="ui details">
           <div width="100%">
             <div className="ui hidden divider"></div>
@@ -27,5 +28,12 @@ export default class Detail extends React.Component {
           </div>
         </div>
       )
+    } else {
+      return (
+        <div className="ui details">
+          Loading
+        </div>
+      )
+    }
   }
 }
