@@ -1,5 +1,6 @@
 # iso-react-demo
 Example of how to build an isomorphic react app.
+[Slides from #strangeloop](https://speakerdeck.com/elyseko/building-isomorphic-web-apps-with-react)
 
 Runs at localhost:4000.
 
