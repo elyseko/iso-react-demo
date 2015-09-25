@@ -56,7 +56,7 @@ export default class Store {
 
     let cacheId = cardId + options.id;
     if (this._checkCache(cacheId)) {
-      callback(err, {result: cache.get(options.id), id: cacheId});
+      callback(err, {result: cache.get(cacheId), id: cacheId});
     } else {
       this._get(callback, boardgames.items[options.id-1], cacheId);
     }
@@ -72,7 +72,7 @@ export default class Store {
 
     let cacheId = relatedId + options.id;
     if (this._checkCache(cacheId)) {
-      callback(err, {result: cache.get(options.id), id: cacheId});
+      return callback(err, {result: cache.get(cacheId), id: cacheId});
     } else {
       //TODO: hook up to actual related ap
       this._get(callback, boardgames.items, cacheId);

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/server';
 
 import { RoutingContext, match } from 'react-router'
 import routes from '../shared/routes';
-import createLocation from 'history/lib/createLocation'
+import createLocation from '$history'
 import routeUtils from '../shared/routeUtils'
 
 let createElement = (Component, props) => {
@@ -29,7 +29,6 @@ module.exports = (req, res) => {
       let count = requests.length;
       let viewData = {};
       let callback = (err, data)=> {
-        console.log("server", err,data);
         if(!err) {
           viewData[data.id] = data.result;
         } else {

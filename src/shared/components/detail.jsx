@@ -22,12 +22,14 @@ export default class Detail extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="details">
         <h1>{this.state.data.name}</h1>
         <img className="ui image left floated" src={this.state.data.thumbnail} />
         <div>
           <h2>Related Games</h2>
-          {viewUtils.renderCards(this.state.related)}
+          <div>
+            {viewUtils.renderCards(this.state.related)}
+          </div>
         </div>
       </div>
     )

@@ -1,11 +1,12 @@
 <html>
   <head>
     <title><%= title%></title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css"
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000//semantic.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css"> -->
   </head>
   <body>
     <div id="react"><%- html%></div>
     <script>$data = function(){return<%- data%>};</script>
-    <script type="text/javascript" src="http://localhost:3000/public/build/browser.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/build/browser.js"></script>
   </body>
 </html>

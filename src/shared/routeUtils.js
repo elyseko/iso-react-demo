@@ -33,8 +33,8 @@ module.exports = {
       if (item) {
         let options = {};
         if (item.hasOwnProperty("params")) {
-          Object.keys(item.params).forEach((item, index) => {
-            options[item] = params[item];
+          Object.keys(item.params).forEach((option, index) => {
+            options[option] = params[option];
           });
         }
           store[item.request](callback, item.request, options);

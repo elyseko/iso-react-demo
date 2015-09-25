@@ -48,7 +48,7 @@ module.exports = [
     resolve: {
       extensions: ['', '.js', '.json', '.jsx'],
       alias: {
-        '$history':'history/lib/createMemoryHistory'
+        '$history': 'history/lib/createLocation'
       }
     },
     plugins: [definePlugin]

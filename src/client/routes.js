@@ -16,21 +16,27 @@ import routeUtils from '../shared/routeUtils'
 // knows about
 function createElement(Component, props) {
   let requests = routeUtils.getListOfRequests([Component])
-  let viewData = {};
   let count = requests.length;
-  let callback = (err, data)=> {
-    console.log("client", err,data);
-    if(!err) {
-      viewData[data.id] = data.result;
-    } else {
-      viewData[data.id] = err;
+  if (count) {
+    console.log("yeah requests")
+    let viewData = {};
+    let callback = (err, data)=> {
+      console.log("client", err,data);
+      if(!err) {
+        viewData[data.id] = data.result;
+      } else {
+        viewData[data.id] = err;
+      }
+      count--;
+      if (count <= 0) {
+        props.data = viewData;
+        console.log("props", props)
+        return <Component {...props}/>
+      }
     }
-    count--;
-    if (count <= 0) {
-      return <Component {...props}/>
-    }
+    routeUtils.batchRequests(requests, callback, props.params);
   }
-  routeUtils.batchRequests(requests, callback);
+  return <Component {...props}/>
   // otherwise set loading props if data isn't needed
   // before render
 }
