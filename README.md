@@ -4,17 +4,17 @@ Example of how to build an isomorphic react app.
 Runs at localhost:4000.
 
 # Setup
-`
+```
 npm install
 webpack install -g
-`
+```
 
 Run the following in separate windows.
-`
+```
 webpack --watch
 gulp browser-sync
 npm start
-`
+```
 
 # Libraries
 * Requires webpack to build
