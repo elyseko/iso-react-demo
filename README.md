@@ -18,6 +18,10 @@ gulp browser-sync
 npm start
 ```
 
+* When you start browser sync it will open a window for you automatically,
+since there is no index.html it will show an error. To verify it is working, test
+/build/browser.js
+
 # Libraries
 * Requires webpack to build
 * Browser sync is to server static assets so we don't need to bundle them

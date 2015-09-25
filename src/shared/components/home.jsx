@@ -14,8 +14,14 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div className="ui six doubling cards">
-        {viewUtils.renderCards(this.props.data.getCards)}
+      <div>
+        <div className="ui two item menu">
+          <a className="item active">Default</a>
+          <a className="item">Reverse</a>
+        </div>
+        <div className="ui six doubling cards">
+          {viewUtils.renderCards(this.props.data.getCards)}
+        </div>
       </div>
 
     );

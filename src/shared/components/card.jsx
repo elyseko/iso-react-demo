@@ -4,13 +4,11 @@ import { Link } from "react-router"
 export default class Card extends React.Component {
   render() {
     return (
-      <Link to={`/game/${this.props.id}`}>
-        <div className="card">
-            {this.props.name}
-          <img className="ui image left floated" src={this.props.thumbnail} />
-          <div>
-            <span>Published in </span><span>{this.props.year_published}</span>
-          </div>
+      <Link  className="card" to={`/game/${this.props.id}`}>
+        <img className="ui image" src={this.props.thumbnail} />
+        <div>{this.props.name}</div>
+        <div>
+          <span>Published in </span><span>{this.props.year_published}</span>
         </div>
       </Link>
 

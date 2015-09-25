@@ -2,7 +2,7 @@ import express from "express";
 import path from 'path';
 
 // instantiate react-router
-import router from './router'
+import router from './routes'
 
 const app = express();
 

@@ -37,7 +37,7 @@ module.exports = {
             options[option] = params[option];
           });
         }
-          store[item.request](callback, item.request, options);
+        store[item.request](callback, item.request, options);
       } else {
         console.error("static method requestData must return a valid store request")
       }

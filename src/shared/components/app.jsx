@@ -13,8 +13,10 @@ export default class App extends React.Component {
   render() {
     return (
         <div className="app">
-          <h3 className="ui header"><Link to="/">Isomorphic React Example</Link></h3>
-          <div className="main-content">
+          <h3 className="ui fixed inverted main menu">
+            <Link className="item" to="/">Isomorphic React Example</Link>
+          </h3>
+          <div className="ui container main-content">
             {this.props.children}
           </div>
         </div>

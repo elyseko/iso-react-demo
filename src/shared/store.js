@@ -75,7 +75,7 @@ export default class Store {
       return callback(err, {result: cache.get(cacheId), id: cacheId});
     } else {
       //TODO: hook up to actual related ap
-      this._get(callback, boardgames.items, cacheId);
+      this._get(callback, boardgames.items.slice(0,4), cacheId);
     }
   }
 
