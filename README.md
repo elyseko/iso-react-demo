@@ -6,7 +6,9 @@ Runs at localhost:4000.
 # Setup
 ```
 npm install
-webpack install -g
+
+# if you don't have webpack
+npm install webpack -g
 ```
 
 Run the following in separate windows.
