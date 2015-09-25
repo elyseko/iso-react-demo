@@ -33,6 +33,7 @@
     "history": "^1.9.0",
     "http-proxy": "^1.11.1",
     "invariant": "^2.1.0",
+    "json-loader": "^0.5.2",
     "react": "^0.14.0-beta3",
     "react-dom": "^0.14.0-beta3",
     "react-router": "^1.0.0-beta4",
@@ -43,9 +44,9 @@
     "webpack": "^1.11.0"
   },
   "devDependencies": {
+    "browser-sync": "^2.9.6",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
-    "json-loader": "^0.5.2",
     "nodemon": "^1.7.0"
   }
 }
